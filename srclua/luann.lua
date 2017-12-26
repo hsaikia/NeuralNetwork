@@ -23,6 +23,11 @@ THE SOFTWARE.
 
 ]]--
 
+--[[
+Modified by Himangshu Saikia
+saikia@kth.se, 2017
+]]
+
 -- parameters used
 local ELU_alpha = 0.5
 
@@ -204,7 +209,7 @@ end
 --The cell has a structure containing weights that modify the input from the previous layer.
 --Each cell also has a signal, or output.
 function Cell:new(numOutputs)
-	local cell = {gradient = 0, weights = {}, deltaWeights = {}, signal = 0}
+	local cell = {gradient = 0, weights = {}, deltaWeights = {}, signal = 1}
 		for i = 1, numOutputs do
 			cell.weights[i] = math.random()
 			cell.deltaWeights[i] = 0
@@ -240,7 +245,7 @@ end
 function luann:new(layers, learningRate, momentum, actFuncType)
 	local network = {netError = 0, learningRate = learningRate, momentum = momentum, actFuncType = actFuncType}
 	for i = 1, #layers - 1 do
-		network[i] = Layer:new(layers[i] + 1, layers[i + 1])
+		network[i] = Layer:new(layers[i] + 1, layers[i + 1]) -- bias neuron points to everyone but doesn't have any inputs
 	end
 
 	network[#layers] = Layer:new(layers[#layers], 0)
@@ -267,11 +272,10 @@ function luann:printnn()
 end
 
 function luann:activate(inputs)
-	local threshold = self.threshold
 	for i = 1, #inputs do
 		self[1].cells[i].signal = inputs[i]
 	end
-	self[1].cells[#inputs + 1].signal = 1 -- bias
+
 	for i = 2, #self do
 
 		--print("Activating Layer " .. i)
@@ -324,6 +328,8 @@ function luann:bp(inputs, outputs)
 	for i = 1, #outs do
 		self.netError = self.netError + (outs[i] - outputs[i])^2
 	end
+	
+	self.netError = math.sqrt(self.netError / #outs)
 
 	local numSelf = #self
 	local learningRate = self.learningRate

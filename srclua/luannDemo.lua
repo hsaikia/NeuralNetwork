@@ -2,22 +2,23 @@ local luann = require("luann")
 math.randomseed(89890)
 
 local learningRate = 0.15 -- set between 0, 1
-local momentum = 0.5 -- set between 0 and 1
-local attempts = 100 -- number of times to do backpropagation
-local actFun = "RELU"
+local momentum = 0.1 -- set between 0 and 1
+local attempts = 10000 -- number of times to do backpropagation
+local actFun = "TANH"
 
 --create a network with 2 inputs, 3 hidden cells, and 1 output
-myNetwork = luann:new({2, 3, 1}, learningRate, momentum, actFun)
+myNetwork = luann:new({2, 4, 1}, learningRate, momentum, actFun)
 
-xorI = {{0, 0}, {1, 0}, {0, 1}, {1, 1}}
+xorI = {{0, 0}, {0, 1}, {1, 0}, {1, 1}}
 xorO = {{0}, {1}, {1}, {0}}
 --run backpropagation (bp)
 for i = 1,attempts do
 
 	--myNetwork:printnn()
 
-	--R = math.fmod(i - 1, 4) + 1
-	R = math.random(4)
+	R = math.fmod(i - 1, 4) + 1
+	--print("IDX " .. R)
+	--R = math.random(4)
 
 	--for i, v in ipairs(xorI[R]) do
 	--	print("Input " .. i .. " : " .. v)

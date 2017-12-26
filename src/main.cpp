@@ -10,8 +10,8 @@
 void testXOR() {
 	std::vector<size_t> topo = { 2, 4, 1 };
 	std::vector<double> eta = { 0.15, 0.15, 0.15 };
-	std::vector<double> alpha = { 0.5, 0.5, 0.5 };
-	std::vector<ActivationFunction> actFuns = { LEAKY_RELU, LEAKY_RELU, LEAKY_RELU };
+	std::vector<double> alpha = { 0.2, 0.2, 0.2 };
+	std::vector<ActivationFunction> actFuns = { TANH, TANH, TANH };
 	NeuralNetwork NN;
 	NN.init(topo, eta, alpha, actFuns);
 
@@ -33,16 +33,21 @@ void testXOR() {
 
 	std::vector<XOR> all;
 	all.push_back(XOR(0, 0, 1));
-	all.push_back(XOR(1, 1, 1));
 	all.push_back(XOR(0, 1, 0));
 	all.push_back(XOR(1, 0, 0));
+	all.push_back(XOR(1, 1, 1));
 
 	//int count = 1000;
 
+	//int R = 3;
+	int run = 1;
 	//while (count--) {
 	while (true) {
 		auto R = rand() % 4;
+		//R = (R + 1) % 4;
 
+		std::cout << "\nRun : " << run;
+		run++;
 		std::cout << "\nInput : " << all[R].inp[0] << ", " << all[R].inp[1] << "\n";
 		std::cout << "Expected Output : " << all[R].out[0] << "\n";
 
@@ -54,6 +59,9 @@ void testXOR() {
 		NN.getResults(res);
 
 		std::cout << "\nResult : " << res[0] << "\n";
+		std::cout << "\nError : " << NN.getError() << "\n";
+
+		//NN.writeNNToFile("xorTrain.txt");
 
 		getchar();
 	}
@@ -241,9 +249,10 @@ void testQuadratic() {
 }
 
 int main() {
-	trainLine();
-	getchar();
-	testLine();
-	getchar();
+	testXOR();
+	//trainLine();
+	//getchar();
+	//testLine();
+	//getchar();
 	return 0;
 }

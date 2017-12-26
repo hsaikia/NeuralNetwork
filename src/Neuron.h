@@ -1,7 +1,7 @@
 /*
 ** author : Himangshu Saikia
 ** email : saikia@kth.se
-** adapted from the youtube video by vinh nguyen
+** adapted from the youtube video by Dave Miller
 ** https://youtu.be/KkwX7FkLfug
 */
 
