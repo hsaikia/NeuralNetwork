@@ -1,5 +1,5 @@
 /*
-** author : Himangshu Saikia
+** author : Himangshu Saikia, 2017
 ** email : saikia@kth.se
 ** adapted from the youtube video by Dave Miller
 ** https://youtu.be/KkwX7FkLfug
@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include "Neuron.h"
 
+namespace NN {
 class NeuralNetwork {
 public:
 	NeuralNetwork();
@@ -29,3 +30,4 @@ private:
 	std::vector<Layer> layers_;
 	double error_;
 };
+}
